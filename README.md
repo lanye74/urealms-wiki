@@ -1,3 +1,3 @@
 # urealms-wiki
 
-gaming.
+gayming.
