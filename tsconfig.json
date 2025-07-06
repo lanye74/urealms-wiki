@@ -10,6 +10,8 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 
+		// oxymoron
 		"strict": true,
+		"allowJs": true,
 	}
 }
