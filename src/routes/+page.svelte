@@ -1,7 +1,6 @@
 <style>
 	span {
 		color: oklch(0.7 0.1 0);
-		animation: gay 3s infinite;
 	}
 </style>
 
