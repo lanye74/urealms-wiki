@@ -7,7 +7,7 @@ daily work:
 
 bonus commands:
 - store files away from commit: `git stash push filename`
-- restore files: `git stash pop`
+- restore last stashed file: `git stash pop`
 
 pushing to production:
 - switch to production `git checkout production`
