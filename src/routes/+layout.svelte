@@ -1,6 +1,9 @@
 <script lang="ts">
-	import getTitle from "$util/title.js";
 	import {page} from "$app/state";
+
+	import getTitle from "$utils/title.js";
+
+
 
 	const {children} = $props();
 </script>
@@ -11,6 +14,12 @@
 	<title>{getTitle(page.route.id)}</title>
 </svelte:head>
 
+
+
+<nav>
+	<a href="/">Home</a>
+	<a href="/search">Search</a>
+</nav>
 
 
 {@render children()}

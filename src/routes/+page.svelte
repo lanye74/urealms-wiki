@@ -4,6 +4,9 @@
 	}
 </style>
 
+
+
 <img src="assets/Newrealms.png" alt="bitch" height=100>
+
 <h1>Welcome freaks and <span>friends :3</span></h1>
 <p>please stay.</p>
