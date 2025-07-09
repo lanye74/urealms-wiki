@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+// import fs from "node:fs/promises";
 
 
 
@@ -10,12 +10,12 @@ export const actions = {
 
 
 
-		const routesTree = await fs.readdir("src/routes", {
-			withFileTypes: true,
-			recursive: true
-		});
+		// const routesTree = await fs.readdir("src/routes", {
+		// 	withFileTypes: true,
+		// 	recursive: true
+		// });
 
-		console.log(routesTree);
+		// console.log(routesTree);
 
 
 
