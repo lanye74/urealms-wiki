@@ -5,10 +5,7 @@
 export const actions = {
 	search: async ({request}) => {
 		const formData = await request.formData();
-
 		const searchQuery = formData.get("search");
-
-
 
 		// const routesTree = await fs.readdir("src/routes", {
 		// 	withFileTypes: true,
@@ -21,16 +18,10 @@ export const actions = {
 
 		return {
 			searchResults: [
-				{
-					text: "hey!"
-				},
-				{
-					text: "heya!"
-				},
-				{
-					text: "heyo!"
-				},
+				{text: "hey!"},
+				{text: "heya!"},
+				{text: "heyo!"},
 			]
-		}
+		};
 	}
 };
