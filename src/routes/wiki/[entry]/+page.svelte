@@ -1,9 +1,11 @@
 <script lang="ts">
 	const {data} = $props();
-
-	let PageComponent = $derived(data.page.default);
 </script>
 
 
 
-<PageComponent />
+{#await data.page}
+	<p>Loading page...</p>
+{:then PageComponent}
+	<PageComponent />
+{/await}
