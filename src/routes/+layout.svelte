@@ -19,10 +19,11 @@
 <nav>
 	<a href="/">Home</a>
 	<a href="/search">Search</a>
-	<!-- TODO: remove these -->
-	<a href="/wiki/Page1" data-sveltekit-reload>Wiki Page 1</a>
-	<a href="/wiki/Page2" data-sveltekit-reload>Wiki Page 2</a>
+
+	<a href="/wiki/Page1">Wiki Page 1</a>
+	<a href="/wiki/Page2">Wiki Page 2</a>
 </nav>
+
 
 
 {@render children()}
