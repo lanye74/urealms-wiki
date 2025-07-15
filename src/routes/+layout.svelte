@@ -11,7 +11,7 @@
 
 
 <svelte:head>
-	<title>{getTitle(page.route.id)}</title>
+	<title>{getTitle(page.url.pathname)}</title>
 </svelte:head>
 
 
