@@ -1,4 +1,4 @@
-import type {Component} from "svelte";
+import type {WikiPageImport} from "$types";
 
 
 
@@ -10,9 +10,8 @@ export async function load({params}) {
 	// TODO: this isn't how i would like it to be,
 	// but it's more reliable than it was before. so whatever
 	const clientPageRegistry = import.meta.glob("/src/lib/wiki/*.svelte", {
-		eager: false,
-		import: "default"
-	}) as Record<string, () => Promise<Component>>;
+		eager: false
+	}) as Record<string, () => Promise<WikiPageImport>>;
 
 
 	const wikiPagePromise = clientPageRegistry[pagePath];

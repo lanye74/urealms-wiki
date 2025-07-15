@@ -1,7 +1,8 @@
-import type {Component} from "svelte";
+import type {WikiPageMetadata} from "$lib/types.js";
 
 
 
 export const staticPageRegistry = import.meta.glob("/src/lib/wiki/*.svelte", {
-	eager: true
-}) as Record<string, Component>;
+	eager: true,
+	import: "metadata"
+}) as Record<string, WikiPageMetadata>;

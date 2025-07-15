@@ -6,6 +6,6 @@
 
 {#await data.page}
 	<p>Loading page...</p>
-{:then PageComponent}
-	<PageComponent />
+{:then WikiPageImport}
+	<WikiPageImport.default />
 {/await}
