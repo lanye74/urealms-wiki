@@ -27,7 +27,10 @@
 
 
 <main>
-	{@render children()}
+	<!-- TODO: figure out how to properly use boundaries :-) -->
+	<svelte:boundary>
+		{@render children()}
+	</svelte:boundary>
 </main>
 
 
