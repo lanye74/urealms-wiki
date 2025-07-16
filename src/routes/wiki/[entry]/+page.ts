@@ -1,5 +1,4 @@
 import type {WikiPageImport} from "$lib/types.js";
-import {resolveWikiFile} from "$utils/fileResolver.js";
 import {error} from "@sveltejs/kit";
 
 
@@ -8,7 +7,7 @@ import {error} from "@sveltejs/kit";
 
 // maybe i should figure out how to directly import the file
 // without vite getting mad at me and putting me through type hell??
-const clientPageRegistry = import.meta.glob(resolveWikiFile("*"), {
+const clientPageRegistry = import.meta.glob("/src/lib/wiki/*.svelte", {
 	eager: false
 }) as Record<string, () => Promise<WikiPageImport>>;
 
@@ -16,7 +15,7 @@ const clientPageRegistry = import.meta.glob(resolveWikiFile("*"), {
 
 export async function load({params}) {
 	const pageRequest = params.entry;
-	const pagePath = resolveWikiFile(pageRequest);
+	const pagePath = `/src/lib/wiki/${pageRequest}.svelte`;
 
 
 	if(!clientPageRegistry[pagePath]) {
