@@ -1,4 +1,8 @@
 <script lang="ts">
+    import Header from "$components/Header.svelte";
+
+
+
 	let {children, data} = $props();
 </script>
 
@@ -10,13 +14,7 @@
 
 
 
-<nav>
-	<a href="/">Home</a>
-	<a href="/search">Search</a>
-
-	<a href="/wiki/Page1">Wiki Page 1</a>
-	<a href="/wiki/Page2">Wiki Page 2</a>
-</nav>
+<Header />
 
 
 

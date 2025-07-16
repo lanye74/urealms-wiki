@@ -1,5 +1,6 @@
-import type {WikiPageImport} from "$lib/types.js";
 import {error} from "@sveltejs/kit";
+
+import type {WikiPageImport} from "$lib/types.js";
 
 
 
