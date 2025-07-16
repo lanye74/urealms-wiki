@@ -26,7 +26,8 @@
 
 <header>
 	<!-- TODO: funny alt text needs to be replaced -->
-	<img src="assets/Newrealms.png" alt="bitch">
+	<!-- TODO: also: investigate importing image in script tag -->
+	<img src="/assets/Newrealms.png" alt="bitch">
 
 	<nav>
 		<a href="/">Home</a>
