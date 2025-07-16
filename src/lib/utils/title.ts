@@ -1,4 +1,4 @@
-import {staticPageRegistry} from "./pageRegistry.js";
+import {staticPageRegistry} from "$lib/utils/pageRegistry.js";
 
 
 
@@ -9,8 +9,6 @@ export default function getTitle(pagePath: string) {
 
 		// TODO: error check this
 		// TODO: this is stupid.
-		// the whole point of the static registry is so the client
-		// doesn't have to access it all at once
 		const pageTitle = staticPageRegistry[filePath].title;
 
 		// TODO: please completely rethink this process

@@ -1,4 +1,4 @@
-import type {WikiPageImport} from "$types";
+import type {WikiPageImport} from "$lib/types.js";
 
 
 

@@ -1,17 +1,11 @@
 <script lang="ts">
-	import {page} from "$app/state";
-
-	import getTitle from "$utils/title.js";
-
-
-
-	const {children} = $props();
+	let {children, data} = $props();
 </script>
 
 
 
 <svelte:head>
-	<title>{getTitle(page.url.pathname)}</title>
+	<title>{data.pageTitle}</title>
 </svelte:head>
 
 

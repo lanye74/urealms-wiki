@@ -3,7 +3,7 @@
 
 
 // TODO: this can be worked on again, with the new glob pattern
-// maybe the server can eagerly load the files and search happens on-server?
+// maybe the server can eagerly load the metada, and the search happens on-server?
 export const actions = {
 	search: async ({request}) => {
 		const formData = await request.formData();
