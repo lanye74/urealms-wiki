@@ -1,17 +1,13 @@
-import getTitle from "$utils/title.js";
+import getPageTitle from "$utils/getPageTitle.js";
 
 
 
-// TODO: what work needs to be done to make this non-blocking?
-// also TODO: this pattern of *the server loading the page title for the client*
-// frankly feels really bad and i think i should kill myself
-// or find a better way to do it.
+// TODO: i still don't like this pattern but i've gotta get over myself
 export async function load({url}) {
-	const pageTitle = getTitle(url.pathname);
-
-
+	// could put a `depends()` here, if i ever want to
+	// be able to force the server to regenerate the page title
 
 	return {
-		pageTitle
+		pageTitle: getPageTitle(url.pathname)
 	};
 }
