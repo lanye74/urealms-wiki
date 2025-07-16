@@ -6,11 +6,19 @@
 	let {children, data} = $props();
 </script>
 
+<style>
+	:global(body) {
+		width: 100vw;
+		height: 100vh;
 
+		margin: 0;
+	}
 
-<svelte:head>
-	<title>{data.pageTitle}</title>
-</svelte:head>
+	main {
+		/* TODO: fix units. */
+		padding: 16px;
+	}
+</style>
 
 
 
@@ -18,4 +26,12 @@
 
 
 
-{@render children()}
+<main>
+	{@render children()}
+</main>
+
+
+
+<svelte:head>
+	<title>{data.pageTitle}</title>
+</svelte:head>
