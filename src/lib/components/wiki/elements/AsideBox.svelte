@@ -3,11 +3,25 @@
 
 
 
-	type Props = {children?: Snippet};
+	// TODO: refactor
+	type AsideBoxImageProps = {
+		src: string;
+		alt: string;
+	};
+
+	type Props = {
+		children?: Snippet;
+		image: AsideBoxImageProps;
+	};
+
+
 
 	let {children}: Props = $props();
 </script>
 
 
 
-{@render children?.()}
+<section class="aside-box">
+	<!-- TODO: image logic here, when i actually Make This Do Somethig -->
+	{@render children?.()}
+</section>

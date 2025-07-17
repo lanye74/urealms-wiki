@@ -10,4 +10,6 @@
 
 
 
-{@render children?.()}
+<section class="wiki-body">
+	{@render children?.()}
+</section>
