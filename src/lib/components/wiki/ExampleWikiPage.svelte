@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type {Snippet} from "svelte";
+	import type {Snippet} from "svelte";
+    import WikiBody from "./elements/WikiBody.svelte";
 
 
 
@@ -12,6 +13,14 @@
 	let {wikiBody}: Props = $props();
 </script>
 
-{@render wikiBody()}
 
-<!-- {@render asideBox?.()} -->
+
+<WikiBody>
+	{@render wikiBody()}
+</WikiBody>
+
+<!-- {#if asideBox}
+	<AsideBox>
+		{@render asideBox()}
+	</AsideBox>
+{/if} -->

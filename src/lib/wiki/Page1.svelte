@@ -1,6 +1,5 @@
 <script module lang="ts">
     import ExampleWikiPage from "$components/wiki/ExampleWikiPage.svelte";
-	import WikiBody from "$components/wiki/elements/WikiBody.svelte";
 
 	import type {WikiPageMetadata} from "$lib/types.js";
 
@@ -14,14 +13,11 @@
 
 
 <ExampleWikiPage>
-	<!-- TODO: reduce redundancy -->
 	{#snippet wikiBody()}
-		<WikiBody>
-			<h1>hello and welcome to page 1</h1>
+		<h1>hello and welcome to page 1</h1>
 
-			<p>stay a while.</p>
+		<p>stay a while.</p>
 
-			<p>this is a dynamically loaded page!</p>
-		</WikiBody>
+		<p>this is a dynamically loaded page!</p>
 	{/snippet}
 </ExampleWikiPage>
