@@ -1,5 +1,5 @@
 <script module lang="ts">
-	import ExampleWikiPage from "$wiki/ExampleWikiPage.svelte";
+	import WikiPage from "$wiki/WikiPage.svelte";
     import WikiBody from "$wiki/elements/WikiBody.svelte";
 
 	import type {WikiPageMetadata} from "$lib/types.js";
@@ -15,7 +15,7 @@
 
 
 
-<ExampleWikiPage>
+<WikiPage>
 	{#snippet wikiBody()}
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
@@ -25,4 +25,4 @@
 		<p>this is a dynamically loaded page!</p>
 	</WikiBody>
 	{/snippet}
-</ExampleWikiPage>
+</WikiPage>
