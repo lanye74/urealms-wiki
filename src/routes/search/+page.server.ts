@@ -4,6 +4,9 @@
 
 // TODO: this can be worked on again, with the new glob pattern
 // maybe the server can eagerly load the metada, and the search happens on-server?
+// TODO: determine if i want to use this https://github.com/Hugos68/vite-plugin-pagefind
+// or do it myself for the learning process :-)
+// i think i want to make my own plugin and use the virtual: env
 export const actions = {
 	search: async ({request}) => {
 		const formData = await request.formData();
