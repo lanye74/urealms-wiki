@@ -10,5 +10,5 @@ export type WikiPageImport = {
 
 
 export type WikiPageMetadata = {
-	title: string;
+	pageTitle: string;
 };

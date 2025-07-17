@@ -8,8 +8,9 @@
 
 	export const metadata: WikiPageMetadata = {
 		// TODO: add support for route name?
+		// ...this would take me completing the page-indexing step, i think
 		// TODO: rename field to "pageTitle"
-		title: "page 1."
+		pageTitle: "page 1."
 	};
 </script>
 

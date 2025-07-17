@@ -9,7 +9,7 @@ export default function getPageTitle(urlPathname: string) {
 
 		// TODO: error check this
 		// TODO: this is stupid.
-		const pageTitle = staticPageRegistry[filePath]?.title;
+		const pageTitle = staticPageRegistry[filePath]?.pageTitle;
 
 		// TODO: please completely rethink this process
 		return pageTitle ? `${pageTitle} | NewRealms Wiki` : "404 | NewRealms Wiki";

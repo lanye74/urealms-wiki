@@ -7,7 +7,7 @@
 
 
 	export const metadata: WikiPageMetadata = {
-		title: "page 2!"
+		pageTitle: "page 2!"
 	};
 </script>
 
