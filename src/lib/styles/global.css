@@ -1,0 +1,17 @@
+:root {
+	/* TODO: make this dynamic */
+	/* ...probably a task for after we start building out actual pages */
+	font-size: 100%;
+	--fallback-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, "Roboto", Arial, sans-serif;
+
+	/* --font */
+}
+
+* {
+	/* TODO: figure out some design thematics */
+	font-family: var(--fallback-fonts);
+}
+
+body {
+	margin: 0;
+}

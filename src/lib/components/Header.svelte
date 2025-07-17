@@ -5,18 +5,17 @@
 <style>
 	header {
 		width: 100%;
-		height: 12vh;
+		height: 6rem;
 
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		/* TODO: fix the units. */
-		padding: 16px;
+		padding: 1rem;
 		box-sizing: border-box;
 
-		border-bottom: 1px solid #ccc;
+		border-bottom: 0.125rem solid #ccc;
 	}
 
 	img {
