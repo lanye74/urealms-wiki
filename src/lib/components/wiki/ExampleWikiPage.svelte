@@ -1,9 +1,9 @@
 <script lang="ts">
-    import WikiBody from "$components/wiki/elements/WikiBody.svelte";
+    // import WikiBody from "$components/wiki/elements/WikiBody.svelte";
     import type {Snippet} from "svelte";
 
 	type Props = {
-		// TODO: figure out typings
+		// TODO: can i force wikiBody to be a WikiBody with types?
 		wikiBody: Snippet;
 	};
 

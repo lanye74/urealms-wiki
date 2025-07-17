@@ -2,6 +2,7 @@
 	import type {WikiPageMetadata} from "$lib/types.js";
 
 
+
 	export const metadata: WikiPageMetadata = {
 		title: "page 2!"
 	};
