@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type {Snippet} from "svelte";
-    import WikiBody from "./elements/WikiBody.svelte";
+
+	import WikiBody from "$wiki/elements/WikiBody.svelte";
 
 
 

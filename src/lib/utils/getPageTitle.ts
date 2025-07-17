@@ -1,4 +1,4 @@
-import {staticPageRegistry} from "$lib/utils/pageRegistry.js";
+import {staticPageRegistry} from "$utils/pageRegistry.js";
 
 
 

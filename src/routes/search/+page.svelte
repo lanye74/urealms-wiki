@@ -1,13 +1,10 @@
 <script lang="ts">
 	import {enhance} from "$app/forms";
-    import type {SubmitFunction} from "@sveltejs/kit";
-
+	import type {SubmitFunction} from "@sveltejs/kit";
 
 
 
 	const {form} = $props();
-
-
 
 	// this is stupid frankly
 	// TODO: decide if i should format this nicely or if its obfuscation is funnier

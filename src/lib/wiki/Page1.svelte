@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import ExampleWikiPage from "$components/wiki/ExampleWikiPage.svelte";
+	import ExampleWikiPage from "$wiki/ExampleWikiPage.svelte";
 
 	import type {WikiPageMetadata} from "$lib/types.js";
 
