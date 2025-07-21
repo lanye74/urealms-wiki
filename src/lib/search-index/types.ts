@@ -11,7 +11,7 @@ export type CommentMarker = {
 
 
 
-type MultilineStringRange = {
+export type MultilineStringRange = {
 	start: StringArrayIndex;
 	end: StringArrayIndex;
 };

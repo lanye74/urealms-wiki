@@ -1,6 +1,6 @@
 import {allSubstringIndices, regexes} from "./helpers.js";
 
-import type {CommentMarker} from "./types.js";
+import type {CommentMarker, MultilineStringRange} from "./types.js";
 
 
 
@@ -80,27 +80,39 @@ function stripHTMLComments(lines: string[]) {
 	});
 
 
-	const validCommentMarkers: [CommentMarker, CommentMarker][] = [];
-	let start: CommentMarker | null = null;
+	const commentedRanges: MultilineStringRange[] = [];
+	let currentStart: CommentMarker | null = null;
 
 	// pair up starts and ends
 	for(const marker of sortedCommentMarkers) {
-		if(marker.type === "start" && start === null) {
-			start = marker;
+		if(marker.type === "start" && currentStart === null) {
+			currentStart = marker;
 		}
 
-		if(marker.type === "end" && start !== null) {
-			validCommentMarkers.push([start, marker]);
-			start = null;
+		if(marker.type === "end" && currentStart !== null) {
+			commentedRanges.push({
+				// TODO: there's gotta be a more idiomatic way to do this,
+				// omitting the `type` field
+				start: {
+					line: currentStart.line,
+					char: currentStart.char
+				},
+				end: {
+					line: marker.line,
+					char: marker.char
+				}
+			});
+
+			currentStart = null;
 		}
 
 		// otherwise, ignore. it's a bad comment marker
+		// (a start after a start, or an end after an end)
 	}
 
 
-	// now, cut out all the content between these pairs of markers
-	// (by turning [CommentMarker, CommentMarker][] into MultilineStringRange[]
-	// and then actually splicing strings together)
+	// now, cut out all the content within the MultilineStringRange[]s
+	// splicing strings and such.
 	// TODO: I LOVE STRING MANIPULATION!!!!!!
 
 
