@@ -4,6 +4,10 @@
 
 	import type {WikiPageMetadata} from "$lib/types.js";
 
+	// TODO: figure out how to type this
+	// @ts-ignore
+	import {registry} from "virtual:search-index";
+
 
 
 	export const metadata: WikiPageMetadata = {
@@ -12,12 +16,16 @@
 		// TODO: rename field to "pageTitle"
 		pageTitle: "page 1."
 	};
+
+
+	// console.log(registry);
 </script>
 
 
 
 <WikiPage>
 	{#snippet wikiBody()}
+	<!-- TODO: frankly, i forgot why i re-added redundancy... re-investigate -->
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
 
