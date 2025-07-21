@@ -15,7 +15,7 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 
 
 
-	const transformedContentIndex: {[fileName: string]: string} = {};
+	const pageSourceIndex: {[fileName: string]: string} = {};
 
 	return {
 		name: "search-index-plugin",
@@ -24,19 +24,29 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 			if(id === virtualModuleId) return resolvedVirtualModule;
 		},
 
-		// TODO: figure out how to make this run before svelte tickles it
-		transform: (fileSource, filePath) => {
-			const match = filePath.match(wikiPageRegex)?.[0];
 
-			if(!match) return;
 
-			const fileName = match.split("/").pop()!;
+		// TODO: start parsing files into their content!
+		transform: {
+			order: "pre",
 
-			transformedContentIndex[fileName] = fileSource;
+			handler: (fileSource, filePath) => {
+				const match = filePath.match(wikiPageRegex)?.[0];
+
+				if(!match) return;
+
+				const fileName = match.split("/").pop()!;
+
+				pageSourceIndex[fileName] = fileSource;
+			}
 		},
 
+
+
 		load: (id) => {
-			if(id === resolvedVirtualModule) return `export const registry = ${JSON.stringify(transformedContentIndex)}`;
+			if(id === resolvedVirtualModule) {
+				return `export const registry = ${JSON.stringify(pageSourceIndex)}`;
+			}
 		}
 	};
 }
