@@ -43,21 +43,84 @@ function extractWikiLines(lines: string[]) {
 
 
 
-// TODO: further parsing
 function stripHTMLComments(lines: string[]) {
 	// TODO: do i really like this verbose approach? meh
 	const outputLines: string[] = [];
 
-	for(const [_index, line] of Object.entries(lines)) {
-		const lineIndex = parseInt(_index);
+	let commentRanges: CommentMarker[] = [];
 
-		if(line.startsWith("<!--") && line.endsWith("-->")) {
+
+
+	for(const [_lineIndex, line] of Object.entries(lines)) {
+		for(const charIndex of allSubstringIndices(line, "<!--")) {
+			commentRanges.push({
+				type: "start",
+				char: charIndex,
+				line: parseInt(_lineIndex)
+			});
+		}
+
+
+		for(const charIndex of allSubstringIndices(line, "-->")) {
+			commentRanges.push({
+				type: "end",
+				char: charIndex + 3, // charIndex is start of comment, +3 to reach end
+				line: parseInt(_lineIndex)
+			});
+		}
+	}
+
+	// TODO: figure out how to turn CommentMarker[]
+	// into MultilineStringRange[] of content to cut out
+	// !!!!!
+	console.log(commentRanges);
+
+
+	return outputLines;
+}
+
+
+
+function allSubstringIndices(string: string, substring: string) {
+	const output: number[] = [];
+
+	if(!string.includes(substring)) {
+		return output;
+	}
+
+
+	for(let i = 0; i < string.length; i++) {
+		let substringIndex = string.indexOf(substring, i);
+
+		if(substringIndex === -1 || output.includes(substringIndex)) {
 			continue;
 		}
 
 
-		outputLines.push(line);
+		output.push(substringIndex);
 	}
 
-	return outputLines;
+	return output;
 }
+
+
+
+// TODO: jglsjgkljljsklfjsgsgskldgklsdjgsdjggsgsdgssdgbk
+// TODO: refactor
+type StringArrayIndex = {
+	line: number | null;
+	char: number | null;
+};
+
+
+
+type CommentMarker = {
+	type: "start" | "end";
+} & StringArrayIndex;
+
+
+
+type MultilineStringRange = {
+	start: StringArrayIndex;
+	end: StringArrayIndex;
+};
