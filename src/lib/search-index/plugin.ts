@@ -1,7 +1,8 @@
 import type {Plugin} from "vite";
 
 // TODO: determine if i'm really happy with relative file paths
-import parseSvelteFile from "./parseSvelteFile.js";
+import extractPageContent from "./extractPageContent.js";
+import {regexes} from "./helpers.js";
 
 
 
@@ -13,9 +14,6 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 	// TODO: understand what this does!
 	const virtualModuleId = "virtual:search-index";
 	const resolvedVirtualModule = `\0${virtualModuleId}`;
-
-	const wikiPageRegex = /src\/lib\/wiki\/.+\.svelte$/;
-
 
 
 	const pageSearchIndex: {[fileName: string]: string[]} = {};
@@ -41,15 +39,15 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 				// i don't believe it is—it seems to just be a secondary filter so that
 				// matched files must also pass the regex. but i don't believe that it
 				// actually trims the `src` field passed to the handler
-				id: wikiPageRegex
+				id: regexes.isWikiFile
 			},
 
 			handler: (fileContent, filePath) => {
 				// because of the filter, this should always exist
-				const match = filePath.match(wikiPageRegex)![0];
+				const match = filePath.match(regexes.isWikiFile)![0];
 				const fileName = match.split("/").pop()!;
 
-				pageSearchIndex[fileName] = parseSvelteFile(fileContent);
+				pageSearchIndex[fileName] = extractPageContent(fileContent);
 				// console.log(pageSearchIndex[fileName]);
 			}
 		},

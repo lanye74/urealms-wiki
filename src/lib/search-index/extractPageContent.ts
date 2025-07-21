@@ -1,18 +1,18 @@
-// TODO: probably refactor these regexes
-const lineDelimiterRegex = /\r?\n|\r|\n/g;
-const leadingTabsThenSpacesRegex = /^[\t]+[ ]*/;
+import {allSubstringIndices, regexes} from "./helpers.js";
+
+import type {CommentMarker} from "./types.js";
 
 
 
 // TODO: name this more specifically, when i figure out a flow of events
-export default function parseSvelteFile(fileContent: string) {
-	const lines = fileContent.split(lineDelimiterRegex);
+export default function extractPageContent(fileContent: string) {
+	const lines = fileContent.split(regexes.delimitLine);
 
 
 	const trimmedLines = lines
 		.map(line => line.trim())
 		.filter(line => line !== "")
-		.map(line => line.replace(leadingTabsThenSpacesRegex, ""))
+		.map(line => line.replace(regexes.leadingTabSpace, ""))
 
 
 	const wikiExtractedLines = extractWikiLines(trimmedLines);
@@ -29,16 +29,14 @@ export default function parseSvelteFile(fileContent: string) {
 
 // this method only operates on lines that start with the content,
 // which is fine. i don't care that much about ignoring false positives in comments.
+// or bad html.
 function extractWikiLines(lines: string[]) {
 	// skip forward a line, we don't care about the tag itself
 	let startIndex = lines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
 	// presumably this saves a few CPU cycles, to go in reverse
 	let endIndex = lines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
 
-	const extractedLines = lines.slice(startIndex, endIndex + 1);
-
-
-	return extractedLines;
+	return lines.slice(startIndex, endIndex + 1);
 }
 
 
@@ -78,49 +76,3 @@ function stripHTMLComments(lines: string[]) {
 
 	return outputLines;
 }
-
-
-
-function allSubstringIndices(string: string, substring: string) {
-	const output: number[] = [];
-
-	if(!string.includes(substring)) {
-		return output;
-	}
-
-
-	for(let i = 0; i < string.length; i++) {
-		let substringIndex = string.indexOf(substring, i);
-
-		if(substringIndex === -1 || output.includes(substringIndex)) {
-			continue;
-		}
-
-
-		output.push(substringIndex);
-	}
-
-	return output;
-}
-
-
-
-// TODO: jglsjgkljljsklfjsgsgskldgklsdjgsdjggsgsdgssdgbk
-// TODO: refactor
-type StringArrayIndex = {
-	line: number | null;
-	char: number | null;
-};
-
-
-
-type CommentMarker = {
-	type: "start" | "end";
-} & StringArrayIndex;
-
-
-
-type MultilineStringRange = {
-	start: StringArrayIndex;
-	end: StringArrayIndex;
-};
