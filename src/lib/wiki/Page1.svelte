@@ -20,8 +20,9 @@
 
 	// console.log(registry);
 </script>
-
-
+<!-- multi-line comment marker
+  -->
+<!-- single line comment to be stripped -->
 
 <WikiPage>
 	{#snippet wikiBody()}
