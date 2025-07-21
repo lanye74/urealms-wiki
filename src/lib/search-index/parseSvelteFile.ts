@@ -15,8 +15,11 @@ export default function parseSvelteFile(fileContent: string) {
 		.map(line => line.replace(leadingTabsThenSpacesRegex, ""))
 
 
-	// TODO: strip style and script tags, before this
-	const commentStrippedLines = removeHTMLComments(trimmedLines)
+	const wikiExtractedLines = extractWikiLines(trimmedLines);
+	const commentStrippedLines = stripHTMLComments(wikiExtractedLines);
+
+	// TODO: i'm realizing, now, that i may have to parse svelte markup too
+	// we're... gonna worry about that if it comes to it
 
 
 	return commentStrippedLines;
@@ -24,7 +27,24 @@ export default function parseSvelteFile(fileContent: string) {
 
 
 
-function removeHTMLComments(lines: string[]) {
+// this method only operates on lines that start with the content,
+// which is fine. i don't care that much about ignoring false positives in comments.
+function extractWikiLines(lines: string[]) {
+	// skip forward a line, we don't care about the tag itself
+	let startIndex = lines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
+	// presumably this saves a few CPU cycles, to go in reverse
+	let endIndex = lines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
+
+	const extractedLines = lines.slice(startIndex, endIndex + 1);
+
+
+	return extractedLines;
+}
+
+
+
+// TODO: further parsing
+function stripHTMLComments(lines: string[]) {
 	// TODO: do i really like this verbose approach? meh
 	const outputLines: string[] = [];
 
@@ -35,10 +55,9 @@ function removeHTMLComments(lines: string[]) {
 			continue;
 		}
 
-		// TODO: further parsing
+
 		outputLines.push(line);
 	}
 
 	return outputLines;
 }
-
