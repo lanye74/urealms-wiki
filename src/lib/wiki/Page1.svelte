@@ -20,14 +20,16 @@
 
 	// console.log(registry);
 </script>
-<!-- multi-line comment marker
-  --> <!-- -->
-<!-- single line comment to be stripped -->
 
 <WikiPage>
 	{#snippet wikiBody()}
 	<!-- TODO: i remembered why i re-added redundancy. it's so that i can actually.
 	     pass props to the components. like for AsideBox. -->
+
+<!-- multi-line comment marker
+--> <!-- -->
+<!-- single line comment to be stripped -->
+
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
 

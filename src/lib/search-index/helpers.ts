@@ -4,7 +4,7 @@ export const regexes = {
 	// this was named "tabspace" as a pun on "whitespace",
 	// but it also happens to match tabs followed by spaces. funny
 	// one-or-more of tabs used here because .trim() should've cut leading spaces
-	leadingTabSpace: /^[\t]+[ ]*/
+	leadingTabspace: /^[\t]+[ ]*/
 };
 
 
@@ -14,7 +14,7 @@ export function allSubstringIndices(string: string, substring: string) {
 
 	// TODO: there's probably an optimization where i use indexOf here,
 	// add it to the output, then start the for-loop from just after it
-	// investigate late
+	// worry about it later
 	if(!string.includes(substring)) {
 		return output;
 	}

@@ -12,7 +12,7 @@ export default function extractPageContent(fileContent: string) {
 	const trimmedLines = lines
 		.map(line => line.trim())
 		.filter(line => line !== "")
-		.map(line => line.replace(regexes.leadingTabSpace, ""))
+		.map(line => line.replace(regexes.leadingTabspace, ""))
 
 
 	const wikiExtractedLines = extractWikiLines(trimmedLines);
@@ -45,13 +45,13 @@ function stripHTMLComments(lines: string[]) {
 	// TODO: do i really like this verbose approach? meh
 	const outputLines: string[] = [];
 
-	let commentRanges: CommentMarker[] = [];
+	const commentMarkers: CommentMarker[] = [];
 
 
 
 	for(const [_lineIndex, line] of Object.entries(lines)) {
 		for(const charIndex of allSubstringIndices(line, "<!--")) {
-			commentRanges.push({
+			commentMarkers.push({
 				type: "start",
 				char: charIndex,
 				line: parseInt(_lineIndex)
@@ -60,18 +60,48 @@ function stripHTMLComments(lines: string[]) {
 
 
 		for(const charIndex of allSubstringIndices(line, "-->")) {
-			commentRanges.push({
+			commentMarkers.push({
 				type: "end",
-				char: charIndex + 3, // charIndex is start of comment, +3 to reach end
+				char: charIndex,
 				line: parseInt(_lineIndex)
 			});
 		}
 	}
 
-	// TODO: figure out how to turn CommentMarker[]
-	// into MultilineStringRange[] of content to cut out
-	// !!!!!
-	console.log(commentRanges);
+
+
+	// sort by line first, ascending, then character
+	const sortedCommentMarkers = commentMarkers.toSorted((first, second) => {
+		if(first.line !== second.line) {
+			return first.line - second.line;
+		}
+
+		return first.char - second.char;
+	});
+
+
+	const validCommentMarkers: [CommentMarker, CommentMarker][] = [];
+	let start: CommentMarker | null = null;
+
+	// pair up starts and ends
+	for(const marker of sortedCommentMarkers) {
+		if(marker.type === "start" && start === null) {
+			start = marker;
+		}
+
+		if(marker.type === "end" && start !== null) {
+			validCommentMarkers.push([start, marker]);
+			start = null;
+		}
+
+		// otherwise, ignore. it's a bad comment marker
+	}
+
+
+	// now, cut out all the content between these pairs of markers
+	// (by turning [CommentMarker, CommentMarker][] into MultilineStringRange[]
+	// and then actually splicing strings together)
+	// TODO: I LOVE STRING MANIPULATION!!!!!!
 
 
 	return outputLines;

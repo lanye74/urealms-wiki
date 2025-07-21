@@ -1,6 +1,6 @@
 type StringArrayIndex = {
-	line: number | null;
-	char: number | null;
+	line: number; // TODO: remember why i made these nullable, once
+	char: number;
 };
 
 
