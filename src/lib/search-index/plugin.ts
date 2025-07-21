@@ -1,5 +1,8 @@
 import type {Plugin} from "vite";
 
+// TODO: determine if i'm really happy with relative file paths
+import parseSvelteFile from "./parseSvelteFile.js";
+
 
 
 type SearchIndexPluginOptions = {};
@@ -15,7 +18,7 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 
 
 
-	const pageSourceIndex: {[fileName: string]: string} = {};
+	const pageSearchIndex: {[fileName: string]: string[]} = {};
 
 	return {
 		name: "search-index-plugin",
@@ -41,17 +44,13 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 				id: wikiPageRegex
 			},
 
-			handler: (fileSource, filePath) => {
+			handler: (fileContent, filePath) => {
 				// because of the filter, this should always exist
 				const match = filePath.match(wikiPageRegex)![0];
 				const fileName = match.split("/").pop()!;
 
-				// console.log(`hook ran for ${fileName}`);
-				pageSourceIndex[fileName] = fileSource;
-
-				// TODO: start parsing files into their content!
-
-				// console.log(`file name contents: ${fileSource}`);
+				pageSearchIndex[fileName] = parseSvelteFile(fileContent);
+				// console.log(pageSearchIndex[fileName]);
 			}
 		},
 
@@ -59,7 +58,8 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 
 		load: (id) => {
 			if(id === resolvedVirtualModule) {
-				return `export const registry = ${JSON.stringify(pageSourceIndex)}`;
+				// TODO: ???
+				return `export const registry = ${JSON.stringify(pageSearchIndex)}`;
 			}
 		}
 	};

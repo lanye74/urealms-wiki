@@ -4,7 +4,7 @@ import pluginDevTools from "vite-plugin-devtools-json";
 import {sveltekit as pluginSvelteKit} from "@sveltejs/kit/vite";
 import pluginViteInspect from "vite-plugin-inspect";
 // TODO: figure out!
-import pluginSearchIndex from "./src/lib/utils/searchIndexPlugin.js";
+import pluginSearchIndex from "./src/lib/search-index/plugin.js";
 
 
 

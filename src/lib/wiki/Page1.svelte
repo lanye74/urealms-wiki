@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import WikiPage from "$wiki/WikiPage.svelte";
-    import WikiBody from "$wiki/WikiBody.svelte";
+	import WikiBody from "$wiki/WikiBody.svelte";
 
 	import type {WikiPageMetadata} from "$lib/types.js";
 
@@ -25,7 +25,8 @@
 
 <WikiPage>
 	{#snippet wikiBody()}
-	<!-- TODO: frankly, i forgot why i re-added redundancy... re-investigate -->
+	<!-- TODO: i remembered why i re-added redundancy. it's so that i can actually.
+	     pass props to the components. like for AsideBox. -->
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
 

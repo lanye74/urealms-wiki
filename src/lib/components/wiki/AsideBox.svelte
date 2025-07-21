@@ -11,7 +11,7 @@
 
 	type Props = {
 		children?: Snippet;
-		image: AsideBoxImageProps;
+		image?: AsideBoxImageProps;
 	};
 
 

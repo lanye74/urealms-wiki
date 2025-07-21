@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import WikiPage from "$wiki/WikiPage.svelte";
-    import WikiBody from "$wiki/WikiBody.svelte";
+	import WikiBody from "$wiki/WikiBody.svelte";
 
 	import type {WikiPageMetadata} from "$lib/types.js";
 
