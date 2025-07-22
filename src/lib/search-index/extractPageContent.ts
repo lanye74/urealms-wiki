@@ -30,6 +30,7 @@ export default function extractPageContent(fileContent: string) {
 // this method only operates on lines that start with the content,
 // which is fine. i don't care that much about ignoring false positives in comments.
 // or bad html.
+// TODO: you probably should care. literally just run stripHTMLComments before this i think
 function extractWikiLines(lines: string[]) {
 	// skip forward a line, we don't care about the tag itself
 	let startIndex = lines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
@@ -42,12 +43,8 @@ function extractWikiLines(lines: string[]) {
 
 
 function stripHTMLComments(lines: string[]) {
-	// TODO: do i really like this verbose approach? meh
-	const outputLines: string[] = [];
-
+	// TODO: nicer way to do this
 	const commentMarkers: CommentMarker[] = [];
-
-
 
 	for(const [_lineIndex, line] of Object.entries(lines)) {
 		for(const charIndex of allSubstringIndices(line, "<!--")) {
@@ -57,7 +54,6 @@ function stripHTMLComments(lines: string[]) {
 				line: parseInt(_lineIndex)
 			});
 		}
-
 
 		for(const charIndex of allSubstringIndices(line, "-->")) {
 			commentMarkers.push({
@@ -71,6 +67,7 @@ function stripHTMLComments(lines: string[]) {
 
 
 	// sort by line first, ascending, then character
+	// TODO: i'm sure i can probably build the array in order instead
 	const sortedCommentMarkers = commentMarkers.toSorted((first, second) => {
 		if(first.line !== second.line) {
 			return first.line - second.line;
@@ -91,22 +88,15 @@ function stripHTMLComments(lines: string[]) {
 
 		if(marker.type === "end" && currentStart !== null) {
 			commentedRanges.push({
-				// TODO: there's gotta be a more idiomatic way to do this,
-				// omitting the `type` field
-				start: {
-					line: currentStart.line,
-					char: currentStart.char
-				},
-				end: {
-					line: marker.line,
-					char: marker.char
-				}
+				// the `type` field isn't actually omitted but it's fine
+				start: {...currentStart},
+				end: {...marker}
 			});
 
 			currentStart = null;
 		}
 
-		// otherwise, ignore. it's a bad comment marker
+		// otherwise, ignore—it's a bad comment marker
 		// (a start after a start, or an end after an end)
 	}
 
@@ -114,6 +104,9 @@ function stripHTMLComments(lines: string[]) {
 	// now, cut out all the content within the MultilineStringRange[]s
 	// splicing strings and such.
 	// TODO: I LOVE STRING MANIPULATION!!!!!!
+
+	const outputLines: string[] = [];
+
 
 
 	return outputLines;
