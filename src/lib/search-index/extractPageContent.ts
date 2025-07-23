@@ -116,45 +116,39 @@ function stripHTMLComments(inputLines: string[]) {
 
 	// TODO: switch to normal for loops, probably
 	for(let lineIndex = 0; lineIndex < inputLines.length; lineIndex++) {
-		const line = inputLines[lineIndex];
-
-		let commentRange = commentedRanges.find(range => range.start.line === lineIndex);
+		const commentRange = commentedRanges.find(range => range.start.line === lineIndex);
 
 		if(!commentRange) {
-			outputLines.push(line);
+			outputLines.push(inputLines[lineIndex]);
 			continue;
 		}
 
 
+		// TODO: ARGHHHHHH
 		if(commentRange.start.line === commentRange.end.line) {
-			let accumulator = line;
+			const currentLineRanges = commentedRanges
+				.filter(range => range.start.line === lineIndex)
+				// reverse sort; operating in reverse order prevents problems with shifting indices
+				.sort((first, second) => second.start.char - first.start.char);
 
 
-			for(const commentRange of commentedRanges.filter(range => range.start.line === lineIndex)) {
-				// there's a commented out range. manually loop over each line range it describes
+			let currentLine = inputLines[lineIndex];
 
-				// we're talking about a single line, so we just need to cut out the comment content
+			for(const commentRange of currentLineRanges) {
+				// we're talking about a single line, so we just need to cut around the comment content
+				const includeBeginning = currentLine.slice(0, commentRange.start.char);
+				// end char starts at first position of -->; add + 3 to remove it completely
+				const includeEnd = currentLine.slice(commentRange.end.char + 3);
 
-				// console.log(`trimming: "${line}" from range ${commentRange.start.char} to ${commentRange.end.char}`);
-				// console.log(`trimmed:  "${line.slice(0, commentRange.start.char) + " ".repeat(commentRange.end.char + 3 - commentRange.start.char) + line.slice(commentRange.end.char + 3)}"`)
-
-				const includeBeginning = accumulator.slice(0, commentRange.start.char);
-				const includeEnd = accumulator.slice(commentRange.end.char + 3);
-				// don't want to mess up other edits to the same line
-				const fillerSpacing = " ".repeat(commentRange.end.char + 3 - commentRange.start.char);
-
-				const trimmedLine = includeBeginning + fillerSpacing + includeEnd;
-
-				accumulator = trimmedLine;
+				currentLine = includeBeginning + includeEnd;
 			}
 
-			// TODO: cut out the space-replaced content
-			outputLines.push(accumulator);
+			outputLines.push(currentLine);
 			continue;
 		}
 
 
-		outputLines.push(line);
+		outputLines.push(inputLines[lineIndex]);
 	}
 
 
