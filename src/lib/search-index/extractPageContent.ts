@@ -136,8 +136,8 @@ function stripHTMLComments(inputLines: string[]) {
 		outputLines[start.line] = includeBeginning;
 		outputLines[end.line] = includeEnd;
 
-		// fencepost problem, add one
-		outputLines.splice(start.line, end.line - start.line + 1);
+		// don't touch the lines we just modified, only any lines inbetween
+		outputLines.splice(start.line + 1, end.line - start.line - 1);
 	}
 
 
