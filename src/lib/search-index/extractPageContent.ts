@@ -12,7 +12,7 @@ export default function extractPageContent(fileContent: string) {
 	const trimmedLines = inputLines
 		.map(line => line.trim())
 		.filter(line => line !== "")
-		.map(line => line.replace(regexes.leadingTabspace, ""))
+		.map(line => line.replace(regexes.leadingTabspace, ""));
 
 
 	const wikiExtractedLines = extractWikiLines(trimmedLines);
@@ -35,9 +35,9 @@ export default function extractPageContent(fileContent: string) {
 // or reduce allSubstringIndices on each line and check that sum of each tag <= 1. idk whatever brah
 function extractWikiLines(inputLines: string[]) {
 	// skip forward a line, we don't care about the tag itself
-	let startIndex = inputLines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
+	const startIndex = inputLines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
 	// presumably this saves a few CPU cycles, to go in reverse
-	let endIndex = inputLines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
+	const endIndex = inputLines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
 
 	return inputLines.slice(startIndex, endIndex + 1);
 }
@@ -108,6 +108,58 @@ function stripHTMLComments(inputLines: string[]) {
 	// TODO: I LOVE STRING MANIPULATION!!!!!!
 
 	const outputLines: string[] = [];
+
+
+	console.log("input:");
+	console.log(inputLines);
+
+
+	// TODO: switch to normal for loops, probably
+	for(let lineIndex = 0; lineIndex < inputLines.length; lineIndex++) {
+		const line = inputLines[lineIndex];
+
+		let commentRange = commentedRanges.find(range => range.start.line === lineIndex);
+
+		if(!commentRange) {
+			outputLines.push(line);
+			continue;
+		}
+
+
+		if(commentRange.start.line === commentRange.end.line) {
+			let accumulator = line;
+
+
+			for(const commentRange of commentedRanges.filter(range => range.start.line === lineIndex)) {
+				// there's a commented out range. manually loop over each line range it describes
+
+				// we're talking about a single line, so we just need to cut out the comment content
+
+				// console.log(`trimming: "${line}" from range ${commentRange.start.char} to ${commentRange.end.char}`);
+				// console.log(`trimmed:  "${line.slice(0, commentRange.start.char) + " ".repeat(commentRange.end.char + 3 - commentRange.start.char) + line.slice(commentRange.end.char + 3)}"`)
+
+				const includeBeginning = accumulator.slice(0, commentRange.start.char);
+				const includeEnd = accumulator.slice(commentRange.end.char + 3);
+				// don't want to mess up other edits to the same line
+				const fillerSpacing = " ".repeat(commentRange.end.char + 3 - commentRange.start.char);
+
+				const trimmedLine = includeBeginning + fillerSpacing + includeEnd;
+
+				accumulator = trimmedLine;
+			}
+
+			// TODO: cut out the space-replaced content
+			outputLines.push(accumulator);
+			continue;
+		}
+
+
+		outputLines.push(line);
+	}
+
+
+	console.log("output:");
+	console.log(outputLines);
 
 
 

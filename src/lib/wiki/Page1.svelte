@@ -29,6 +29,7 @@
 preserve<!-- multi-line comment marker
 --> <!-- -->preserve<!-- cut -->
 <!-- single line comment to be stripped -->
+preserve<!-- inline -->preserve
 
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
