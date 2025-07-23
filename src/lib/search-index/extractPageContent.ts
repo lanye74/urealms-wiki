@@ -22,6 +22,7 @@ export default function extractPageContent(fileContent: string) {
 	// we're... gonna worry about that if it comes to it
 
 
+
 	return commentStrippedLines;
 }
 
@@ -103,69 +104,45 @@ function stripHTMLComments(inputLines: string[]) {
 	}
 
 
+
 	// now, cut out all the content within the MultilineStringRange[]s
 	// splicing strings and such.
-	// TODO: I LOVE STRING MANIPULATION!!!!!!
+	// I LOVE STRING MANIPULATION!!!!!!
 
-	const outputLines: string[] = [];
+	const outputLines: string[] = Array.from(inputLines);
 
+	// TODO: possible to build them in reverse? probably not, or not friendly, at least
+	const reversedCommentedRanges = commentedRanges.toReversed();
 
-	console.log("input:");
-	console.log(inputLines);
+	for(const {start, end} of reversedCommentedRanges) {
+		if(start.line === end.line) {
+			const targetLine = outputLines[start.line];
 
+			// we're talking about a single line, so we just need to cut around the comment content
+			const includeBeginning = targetLine.slice(0, start.char);
+			// end char starts at first position of -->; add + 3 to remove it completely
+			const includeEnd = targetLine.slice(end.char + 3);
 
-	for(let lineIndex = 0; lineIndex < inputLines.length; lineIndex++) {
-		const commentRange = commentedRanges.find(range => range.start.line === lineIndex);
+			outputLines[start.line] = includeBeginning + includeEnd;
 
-		if(!commentRange) {
-			outputLines.push(inputLines[lineIndex]);
 			continue;
 		}
 
 
-		// we're dealing with an inline comment(s)
-		if(commentRange.start.line === commentRange.end.line) {
-			const currentLineRanges = commentedRanges
-				.filter(range => range.start.line === lineIndex)
-				// reverse sort; operating in reverse order prevents problems with shifting indices
-				.sort((first, second) => second.start.char - first.start.char);
+		// multi-line comment
+		const includeBeginning = outputLines[start.line].slice(0, start.char);
+		const includeEnd = outputLines[end.line].slice(end.char + 3);
 
+		outputLines[start.line] = includeBeginning;
+		outputLines[end.line] = includeEnd;
 
-			let currentLine = inputLines[lineIndex];
-
-			// there can be multiple inline comments on one line; loop over each
-			for(const commentRange of currentLineRanges) {
-				// we're talking about a single line, so we just need to cut around the comment content
-				const includeBeginning = currentLine.slice(0, commentRange.start.char);
-				// end char starts at first position of -->; add + 3 to remove it completely
-				const includeEnd = currentLine.slice(commentRange.end.char + 3);
-
-				currentLine = includeBeginning + includeEnd;
-			}
-
-			outputLines.push(currentLine);
-			continue;
-		}
-
-
-		// TODO: rework the whole system, since this suffers the same index-shifting problem as before
-		// without a solution as straightforward as "reverse the order",
-		// since the way i'm doing this is intrinsically bound to the current line
-
-		// if we made it here, it's a multi-line comment
-		// only one can exist per line (of course)
-		const includeBeginning = inputLines[commentRange.start.line].slice(0, commentRange.start.char);
-		const includeEnd = inputLines[commentRange.end.line].slice(commentRange.end.char + 3);
-
-		outputLines.push(includeBeginning, includeEnd);
-		lineIndex = commentRange.end.line - 1; // it'll be incremented next loop
+		// fencepost problem, add one
+		outputLines.splice(start.line, end.line - start.line + 1);
 	}
 
 
-	console.log("output:");
-	console.log(outputLines);
-
-
-
-	return outputLines;
+	return outputLines
+		// TODO: does this need to be trimmed?
+		.map(line => line.trim())
+		.filter(line => line !== "");
 }

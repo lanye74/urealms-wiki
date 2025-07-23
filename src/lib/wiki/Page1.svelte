@@ -26,11 +26,6 @@
 	<!-- TODO: i remembered why i re-added redundancy. it's so that i can actually.
 	     pass props to the components. like for AsideBox. -->
 
-preserve<!-- multi-line comment marker
---> <!-- -->preserve<!-- cut -->
-<!-- single line comment to be stripped -->
-preserve<!-- inline -->preserve
-
 	<WikiBody>
 		<h1>hello and welcome to page 1</h1>
 
