@@ -114,7 +114,6 @@ function stripHTMLComments(inputLines: string[]) {
 	console.log(inputLines);
 
 
-	// TODO: switch to normal for loops, probably
 	for(let lineIndex = 0; lineIndex < inputLines.length; lineIndex++) {
 		const commentRange = commentedRanges.find(range => range.start.line === lineIndex);
 
@@ -124,7 +123,7 @@ function stripHTMLComments(inputLines: string[]) {
 		}
 
 
-		// TODO: ARGHHHHHH
+		// we're dealing with an inline comment(s)
 		if(commentRange.start.line === commentRange.end.line) {
 			const currentLineRanges = commentedRanges
 				.filter(range => range.start.line === lineIndex)
@@ -134,6 +133,7 @@ function stripHTMLComments(inputLines: string[]) {
 
 			let currentLine = inputLines[lineIndex];
 
+			// there can be multiple inline comments on one line; loop over each
 			for(const commentRange of currentLineRanges) {
 				// we're talking about a single line, so we just need to cut around the comment content
 				const includeBeginning = currentLine.slice(0, commentRange.start.char);
@@ -148,7 +148,17 @@ function stripHTMLComments(inputLines: string[]) {
 		}
 
 
-		outputLines.push(inputLines[lineIndex]);
+		// TODO: rework the whole system, since this suffers the same index-shifting problem as before
+		// without a solution as straightforward as "reverse the order",
+		// since the way i'm doing this is intrinsically bound to the current line
+
+		// if we made it here, it's a multi-line comment
+		// only one can exist per line (of course)
+		const includeBeginning = inputLines[commentRange.start.line].slice(0, commentRange.start.char);
+		const includeEnd = inputLines[commentRange.end.line].slice(commentRange.end.char + 3);
+
+		outputLines.push(includeBeginning, includeEnd);
+		lineIndex = commentRange.end.line - 1; // it'll be incremented next loop
 	}
 
 
