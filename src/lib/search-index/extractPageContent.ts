@@ -6,10 +6,10 @@ import type {CommentMarker, MultilineStringRange} from "./types.js";
 
 // TODO: name this more specifically, when i figure out a flow of events
 export default function extractPageContent(fileContent: string) {
-	const lines = fileContent.split(regexes.delimitLine);
+	const inputLines = fileContent.split(regexes.delimitLine);
 
 
-	const trimmedLines = lines
+	const trimmedLines = inputLines
 		.map(line => line.trim())
 		.filter(line => line !== "")
 		.map(line => line.replace(regexes.leadingTabspace, ""))
@@ -31,22 +31,24 @@ export default function extractPageContent(fileContent: string) {
 // which is fine. i don't care that much about ignoring false positives in comments.
 // or bad html.
 // TODO: you probably should care. literally just run stripHTMLComments before this i think
-function extractWikiLines(lines: string[]) {
+// TODO: make this throw errors if content can't be found and stuff!!!!!!
+// or reduce allSubstringIndices on each line and check that sum of each tag <= 1. idk whatever brah
+function extractWikiLines(inputLines: string[]) {
 	// skip forward a line, we don't care about the tag itself
-	let startIndex = lines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
+	let startIndex = inputLines.findIndex(line => line.startsWith("<WikiPage>")) + 1;
 	// presumably this saves a few CPU cycles, to go in reverse
-	let endIndex = lines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
+	let endIndex = inputLines.findLastIndex(line => line.startsWith("</WikiPage>")) - 1;
 
-	return lines.slice(startIndex, endIndex + 1);
+	return inputLines.slice(startIndex, endIndex + 1);
 }
 
 
 
-function stripHTMLComments(lines: string[]) {
+function stripHTMLComments(inputLines: string[]) {
 	// TODO: nicer way to do this
 	const commentMarkers: CommentMarker[] = [];
 
-	for(const [_lineIndex, line] of Object.entries(lines)) {
+	for(const [_lineIndex, line] of Object.entries(inputLines)) {
 		for(const charIndex of allSubstringIndices(line, "<!--")) {
 			commentMarkers.push({
 				type: "start",
