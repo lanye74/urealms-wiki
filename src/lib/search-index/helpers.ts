@@ -4,6 +4,7 @@ export const regexes = {
 	// this was named "tabspace" as a pun on "whitespace",
 	// but it also happens to match tabs followed by spaces. funny
 	// one-or-more of tabs used here because .trim() should've cut leading spaces
+	// TODO: maybe use /^([\t]|[ ])+/? i'm pulling these out of my ass + regex101 tbh
 	leadingTabspace: /^[\t]+[ ]*/
 };
 

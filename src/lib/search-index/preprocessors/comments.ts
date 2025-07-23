@@ -1,6 +1,6 @@
-import {allSubstringIndices} from "./helpers.js";
+import {allSubstringIndices} from "../helpers.js";
 
-import type {CommentMarker, MultilineStringRange} from "./types.js";
+import type {CommentMarker, MultilineStringRange} from "../types.js";
 
 
 
