@@ -29,7 +29,7 @@ export default function stripHTMLComments(inputLines: string[]) {
 		}
 
 
-		// multi-line comment
+		// multiline comment
 		const includeBeginning = outputLines[start.line].slice(0, start.char);
 		const includeEnd = outputLines[end.line].slice(end.char + 3);
 

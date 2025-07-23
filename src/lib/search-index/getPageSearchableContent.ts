@@ -5,8 +5,7 @@ import {regexes} from "./helpers.js";
 
 
 
-// TODO: name this more specifically, when i figure out a flow of events
-export default function extractPageContent(fileContent: string) {
+export default function getPageSearchableContent(fileContent: string) {
 	const inputLines = fileContent.split(regexes.delimitLine);
 
 
@@ -19,7 +18,7 @@ export default function extractPageContent(fileContent: string) {
 	const wikiExtractedLines = extractWikiComponent(trimmedLines);
 	const commentStrippedLines = stripHTMLComments(wikiExtractedLines);
 
-	// TODO:
+	// TODO: figure out a return type
 
 
 	return commentStrippedLines;

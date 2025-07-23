@@ -1,7 +1,7 @@
 import type {Plugin} from "vite";
 
 // TODO: determine if i'm really happy with relative file paths
-import extractPageContent from "./extractPageContent.js";
+import getPageSearchableContent from "./getPageSearchableContent.js";
 import {regexes} from "./helpers.js";
 
 
@@ -47,7 +47,7 @@ export default function searchIndexPlugin(options?: SearchIndexPluginOptions): P
 				const match = filePath.match(regexes.isWikiFile)![0];
 				const fileName = match.split("/").pop()!;
 
-				pageSearchIndex[fileName] = extractPageContent(fileContent);
+				pageSearchIndex[fileName] = getPageSearchableContent(fileContent);
 				// console.log(pageSearchIndex[fileName]);
 			}
 		},
