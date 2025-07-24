@@ -1,5 +1,6 @@
-import stripHTMLComments from "./preprocessors/comments.js";
 import extractWikiSource from "./preprocessors/source.js";
+import stripHTMLComments from "./preprocessors/comments.js";
+import extractWikiComponents from "./preprocessors/components.js";
 
 import {regexes} from "./helpers.js";
 
@@ -15,11 +16,14 @@ export default function getPageSearchableContent(fileContent: string) {
 		.map(line => line.replace(regexes.leadingTabspace, ""));
 
 
-	const wikiExtractedLines = extractWikiSource(trimmedLines);
-	const commentStrippedLines = stripHTMLComments(wikiExtractedLines);
+	const wikiSource = extractWikiSource(trimmedLines);
+	const wikiSourceWithoutComments = stripHTMLComments(wikiSource);
+
+	const wikiComponents = extractWikiComponents(wikiSourceWithoutComments);
 
 	// TODO: figure out a return type
 
 
-	return commentStrippedLines;
+
+	return wikiComponents;
 }
