@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Header from "$components/Header.svelte";
-
+	import "@fontsource-variable/funnel-sans";
 	import "$lib/styles/global.css";
+
+	import Header from "$components/Header.svelte";
 
 
 

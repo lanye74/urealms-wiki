@@ -4,12 +4,14 @@
 	font-size: 100%;
 	--fallback-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, "Roboto", Arial, sans-serif;
 
-	/* --font */
+	--body-font-family: "Funnel Sans Variable";
+
+	--ugly-ass-brown: #786356;
 }
 
 * {
 	/* TODO: figure out some design thematics */
-	font-family: var(--fallback-fonts);
+	font-family: var(--body-font-family), var(--fallback-fonts);
 }
 
 body {
