@@ -2,10 +2,8 @@ export const regexes = {
 	isWikiFile: /src\/lib\/wiki\/.+\.svelte$/,
 	delimitLine: /\r?\n|\r|\n/g,
 	// this was named "tabspace" as a pun on "whitespace",
-	// but it also happens to match tabs followed by spaces. funny
-	// one-or-more of tabs used here because .trim() should've cut leading spaces
-	// TODO: maybe use /^([\t]|[ ])+/? i'm pulling these out of my ass + regex101 tbh
-	leadingTabspace: /^[\t]+[ ]*/
+	// but it also happens to match tabs and spaces. funny
+	leadingTabspace: /^([\t]|[ ])*/
 };
 
 

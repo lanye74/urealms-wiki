@@ -8,13 +8,11 @@ export default function stripHTMLComments(inputLines: string[]) {
 	const outputLines: string[] = Array.from(inputLines);
 
 	const commentedRanges = getCommentedRanges(inputLines);
-
-
-	// TODO: possible to build them in reverse? probably not, or not friendly, at least
 	const reversedCommentedRanges = commentedRanges.toReversed();
 
+
 	for(const {start, end} of reversedCommentedRanges) {
-		if(start.line === end.line) {
+		if(start.line === end.line) { // single line comment
 			const targetLine = outputLines[start.line];
 
 			// we're talking about a single line, so we just need to cut around the comment content
@@ -23,26 +21,20 @@ export default function stripHTMLComments(inputLines: string[]) {
 			const includeEnd = targetLine.slice(end.char + 3);
 
 			outputLines[start.line] = includeBeginning + includeEnd;
+		} else { // multiline comment
+			const includeBeginning = outputLines[start.line].slice(0, start.char);
+			const includeEnd = outputLines[end.line].slice(end.char + 3);
 
-			// not necessary; peace of mind
-			continue;
+			outputLines[start.line] = includeBeginning;
+			outputLines[end.line] = includeEnd;
+
+			// don't touch the lines we just modified, only any lines in-between
+			outputLines.splice(start.line + 1, end.line - start.line - 1);
 		}
-
-
-		// multiline comment
-		const includeBeginning = outputLines[start.line].slice(0, start.char);
-		const includeEnd = outputLines[end.line].slice(end.char + 3);
-
-		outputLines[start.line] = includeBeginning;
-		outputLines[end.line] = includeEnd;
-
-		// don't touch the lines we just modified, only any lines inbetween
-		outputLines.splice(start.line + 1, end.line - start.line - 1);
 	}
 
 
 	return outputLines
-		// TODO: does this need to be trimmed?
 		.map(line => line.trim())
 		.filter(line => line !== "");
 }
@@ -104,10 +96,7 @@ function identifyCommentMarkers(inputLines: string[]) {
 	}
 
 
-
 	// sort by line first, ascending, then character
-	// TODO: i'm sure i can probably build the array in order instead
-	// TODO: in what cases would the array not be in the order i want?
 	return output.toSorted((first, second) => {
 		if(first.line !== second.line) {
 			return first.line - second.line;

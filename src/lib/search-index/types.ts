@@ -1,5 +1,5 @@
 type StringArrayIndex = {
-	line: number; // TODO: remember why i made these nullable, once
+	line: number;
 	char: number;
 };
 
