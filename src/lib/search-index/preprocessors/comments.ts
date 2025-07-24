@@ -8,10 +8,12 @@ export default function stripHTMLComments(inputLines: string[]) {
 	const outputLines: string[] = Array.from(inputLines);
 
 	const commentedRanges = getCommentedRanges(inputLines);
-	const reversedCommentedRanges = commentedRanges.toReversed();
 
+	// removing comments in reverse prevents string indices from shifting
+	// skip reversing commentedRanges, just trawl through it backwards
+	for(let i = commentedRanges.length - 1; i >= 0; i--) {
+		const {start, end} = commentedRanges[i];
 
-	for(const {start, end} of reversedCommentedRanges) {
 		if(start.line === end.line) { // single line comment
 			const targetLine = outputLines[start.line];
 
@@ -89,6 +91,6 @@ function identifyCommentMarkers(inputLines: string[]) {
 	return output.toSorted(
 		// neat branchless trick: if first.line and second.line are the same,
 		// then the other half of the || will always trigger (subsort by char position)
-		(first, second) => (first.line - second.line) || (first.char - second.char)
+		(a, b) => (a.line - b.line) || (a.char - b.char)
 	);
 }
