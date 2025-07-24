@@ -24,13 +24,12 @@ export function allSubstringIndices(string: string, substring: string) {
 		let substringIndex = string.indexOf(substring, i);
 
 		// don't add dupes, or misses
-		if(substringIndex === -1 || output.includes(substringIndex)) {
-			continue;
-		}
-
+		if(output.includes(substringIndex))	continue;
+		if(substringIndex === -1) break;
 
 		output.push(substringIndex);
 	}
+
 
 	return output;
 }
