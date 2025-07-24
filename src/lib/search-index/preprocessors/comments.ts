@@ -76,32 +76,19 @@ function getCommentedRanges(inputLines: string[]) {
 function identifyCommentMarkers(inputLines: string[]) {
 	const output: CommentMarker[] = [];
 
-	// TODO: nicer way to do this
-	for(const [_lineIndex, line] of Object.entries(inputLines)) {
-		for(const charIndex of allSubstringIndices(line, "<!--")) {
-			output.push({
-				type: "start",
-				char: charIndex,
-				line: parseInt(_lineIndex)
-			});
-		}
+	inputLines.forEach((line, lineIndex) => {
+		allSubstringIndices(line, "<!--").forEach(charIndex => {
+			output.push({type: "start", char: charIndex, line: lineIndex});
+		});
 
-		for(const charIndex of allSubstringIndices(line, "-->")) {
-			output.push({
-				type: "end",
-				char: charIndex,
-				line: parseInt(_lineIndex)
-			});
-		}
-	}
-
-
-	// sort by line first, ascending, then character
-	return output.toSorted((first, second) => {
-		if(first.line !== second.line) {
-			return first.line - second.line;
-		}
-
-		return first.char - second.char;
+		allSubstringIndices(line, "-->").forEach(charIndex => {
+			output.push({type: "end", char: charIndex, line: lineIndex});
+		});
 	});
+
+	return output.toSorted(
+		// neat branchless trick: if first.line and second.line are the same,
+		// then the other half of the || will always trigger (subsort by char position)
+		(first, second) => (first.line - second.line) || (first.char - second.char)
+	);
 }
